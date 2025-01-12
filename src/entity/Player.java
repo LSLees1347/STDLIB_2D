@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -26,6 +27,13 @@ public class Player extends Entity {
 		screenX = gp.screenWidth/2 - (gp.tileSize/2);
 		screenY = gp.screenHeight/2 - (gp.tileSize/2);
 		
+		solidArea = new Rectangle();
+		solidArea.x = 10;
+		solidArea.y = 10;
+		solidArea.width = 32;
+		solidArea.height = 32;
+		//8 16 32 32
+		
 		setDefaultValues();
 		getPlayerImage();
 	}
@@ -42,14 +50,14 @@ public class Player extends Entity {
 		
 		try {
 			
-			up1 = ImageIO.read(getClass().getResourceAsStream("/player/Up1.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/player/Up2.png"));
-			down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-			left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
+			up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up1.png"));
+			up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up2.png"));
+			down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down1.png"));
+			down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down2.png"));
+			left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left1.png"));
+			left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left2.png"));
+			right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right1.png"));
+			right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right2.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,19 +70,30 @@ public class Player extends Entity {
 		
 			if (keyH.upPressed == true) {
 				direction = "up";
-				worldY -= speed;
 			}
 			else if (keyH.downPressed == true) {
 				direction = "down";
-				worldY += speed;
 			}
 			else if (keyH.leftPressed == true) {
 				direction = "left";
-				worldX -= speed;
 			}
 			else if (keyH.rightPressed == true) {
 				direction = "right";
-				worldX += speed;
+			}
+			
+			//collision check calls
+			collisionOn = false;
+			gp.cCheck.checkTile(this);
+			
+			
+			if (collisionOn == false) {
+				
+				switch(direction) {
+				case "up": worldY -= speed; break;
+				case "down": worldY += speed; break;
+				case "left": worldX -= speed; break;
+				case "right": worldX += speed; break;
+				}
 			}
 		
 			spriteCounter++;
