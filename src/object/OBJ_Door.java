@@ -15,6 +15,8 @@ public OBJ_Door() {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		collision = true;
 	}
 
 }
