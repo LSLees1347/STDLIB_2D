@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity {
 	
@@ -53,20 +54,30 @@ public class Player extends Entity {
 	
 	public void getPlayerImage() {
 		
+		up1 = setup("player_up1");
+		up2 = setup("player_up2");
+		down1 = setup("player_down1");
+		down2 = setup("player_down2");
+		left1 = setup("player_left1");
+		left2 = setup("player_left2");
+		right1 = setup("player_right1");
+		right2 = setup("player_right2");
+	}
+	
+	public BufferedImage setup(String imageName) {
+		
+		UtilityTool uTool = new UtilityTool();
+		BufferedImage image = null;
+		
 		try {
+			image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+			image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 			
-			up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up1.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up2.png"));
-			down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down1.png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down2.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left1.png"));
-			left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left2.png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right2.png"));
-			
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		return image;
 	}
 	
 	public void update() {
@@ -217,8 +228,8 @@ public class Player extends Entity {
 			break;
 		}
 		
-		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+		g2.drawImage(image, screenX, screenY, null);
+		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height); //debug
 		
 	}
 
