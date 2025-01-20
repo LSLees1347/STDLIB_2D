@@ -18,7 +18,9 @@ public class Player extends Entity {
 	
 	public final int screenX;
 	public final int screenY;
-	int hasKey = 0;
+	public int hasKey = 0;
+	int standCounter = 0;
+	
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		
@@ -115,6 +117,14 @@ public class Player extends Entity {
 				spriteCounter = 0;
 			}
 		}
+		else {
+			standCounter++;
+			
+			if (standCounter == 20) {
+				spriteNum = 1;
+				standCounter = 0;
+			}
+		}
 	}
 	
 	public void pickUpObject (int i) {
@@ -124,23 +134,41 @@ public class Player extends Entity {
 			String objectName = gp.obj[i].name;
 			
 			switch (objectName) {
+			
 			case "Key":
+				gp.playSE(2);
 				hasKey++;
 				gp.obj[i] = null;
+				gp.ui.showMessage("Key obtained!");
 				break;
+				
 			case "Door":
 				if (hasKey > 0) {
+					gp.playSE(3);
 					gp.obj[i] = null;
 					hasKey--;
+					gp.ui.showMessage("Door Opened!");
+				}
+				else {
+					gp.ui.showMessage("No Key!");
 				}
 				break;
+				
 			case "Chest":
+				gp.playSE(4);
 				gp.obj[i] = null;
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(1);
 				break;
+				
 			case "Boots":
+				gp.playSE(1);
 				speed += 2;
 				gp.obj[i] = null;
+				gp.ui.showMessage("+ 2 Speed!");
 				break;
+				
 			}
 		}
 	}
@@ -190,6 +218,7 @@ public class Player extends Entity {
 		}
 		
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 		
 	}
 
