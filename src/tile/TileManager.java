@@ -1,5 +1,6 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -108,7 +109,13 @@ public class TileManager {
 				worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
 				worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 				
+				
+				//debug
 				g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+				if (gp.debugMode == true && tile[tileNum].collision == true) {
+					g2.setColor(Color.white);
+					g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+				}
 			}
 			
 			worldCol++;

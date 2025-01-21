@@ -7,7 +7,11 @@ public class KeyHandler implements KeyListener {
 
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	
-	boolean checkDrawTime = false;
+	GamePanel gp = null;
+	
+	public KeyHandler(GamePanel gp) {
+		this.gp = gp;
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -37,13 +41,14 @@ public class KeyHandler implements KeyListener {
 		
 		
 		//debug
-		if (code == KeyEvent.VK_T) {
-			if (checkDrawTime == false) {
-				checkDrawTime = true;
+		if (code == KeyEvent.VK_F3) {
+			if (gp.debugMode == true) {
+				gp.debugMode = false;
 			}
-			else if (checkDrawTime == true) {
-				checkDrawTime = false;
+			else {
+				gp.debugMode = true;
 			}
+			
 		}
 		
 	}

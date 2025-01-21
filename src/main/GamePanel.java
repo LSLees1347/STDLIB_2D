@@ -34,8 +34,9 @@ public class GamePanel extends JPanel implements Runnable{
 	int FPS = 60;
 	
 	//system
+	public boolean debugMode = false;
 	TileManager tileM = new TileManager(this);
-	KeyHandler keyH = new KeyHandler();
+	KeyHandler keyH = new KeyHandler(this);
 	Sound music = new Sound();
 	Sound se = new Sound();
 	public CollisionCheck cCheck = new CollisionCheck(this);
@@ -119,7 +120,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		//debug
 		long drawStart = 0;
-		if (keyH.checkDrawTime == true) {
+		if (debugMode == true) {
 			drawStart = System.nanoTime();
 		}
 		
@@ -138,12 +139,11 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		
 		//debug
-		if (keyH.checkDrawTime == true) {
+		if (debugMode == true) {
 			long drawEnd = System.nanoTime();
 			long passed = drawEnd - drawStart;
 			g2.setColor(Color.white);
 			g2.drawString("draw time: " + passed, 10, 400);
-			System.out.println("draw time: " + passed);
 		}
 		
 		
